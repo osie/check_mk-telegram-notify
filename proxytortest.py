@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import requests
+import requests  # you can install with "pip install requests"
 
 
 def get_tor_session():
