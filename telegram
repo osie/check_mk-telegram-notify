@@ -77,7 +77,7 @@ def construct_message_text(context):
     elif notification_type == "CUSTOM":
         txt_info = "Custom Notification ($@SHORTSTATE$)"
     else:
-        txt_info = notification_type  # Should neven happen
+        txt_info = notification_type  # Should never happen
 
     txt_info = substitute_context(txt_info.replace("@", context["WHAT"]), context)
 
@@ -108,12 +108,12 @@ def send_telegram_message(token, chat_id, text):
         opener = urllib2.build_opener(proxy)
         urllib2.install_opener(opener)
         urllib2.urlopen(url, data).read()
-    #except urllib2.URLError, e:
-        #sys.stdout.write('Cannot send Telegram message: HTTP-Error %s %s\n' % (e.code, e))
-    except urllib2.HTTPError, e:
-        print e.code
     except urllib2.URLError, e:
-        print e.args
+        sys.stdout.write('Cannot send Telegram message: HTTP-Error %s %s\n' % (e.code, e))
+    #except urllib2.HTTPError, e:  # uncomment for debug
+        #print e.code
+    #except urllib2.URLError, e:  # uncomment for debug
+        #print e.args
 
 
 def main():
