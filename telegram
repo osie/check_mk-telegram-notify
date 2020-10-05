@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # Telegram
 
 # Copyright Mathias Kettner  2013  mk@mathias-kettner.de
@@ -26,6 +26,7 @@ import os, re, sys, urllib, urllib2
 
 ### CHANGE THESE ###
 telegram_bot_token = '428093505:AAHlQwBX6FYlj20631E8kDOev8adM_Vui0c'
+use_proxy = False
 ####################
 
 tmpl_host_text = """*Check_MK: $HOSTNAME$ - $EVENT_TXT$*
@@ -104,10 +105,14 @@ def send_telegram_message(token, chat_id, text):
     data = urllib.urlencode({'chat_id': chat_id, 'text': text, 'parse_mode': 'Markdown'})
     #print("sending telegram message, url '%s', chat id '%s', text '%s'" % (url, chat_id, text))  # uncomment for debug
     try:
-        proxy = urllib2.ProxyHandler({'https': 'https://127.0.0.1:8118'})  # Change Proxy IP/Port
-        opener = urllib2.build_opener(proxy)
-        urllib2.install_opener(opener)
-        urllib2.urlopen(url, data).read()
+        if use_proxy:
+            proxy = urllib2.ProxyHandler({'https': 'https://127.0.0.1:8118'})  # Change Proxy IP/Port
+            opener = urllib2.build_opener(proxy)
+            urllib2.install_opener(opener)
+            urllib2.urlopen(url, data).read()
+        else:
+            req = urllib2.Request(url, data)
+            urllib2.urlopen(req).read()
     except urllib2.URLError, e:
         sys.stdout.write('Cannot send Telegram message: HTTP-Error %s %s\n' % (e.code, e))
     #except urllib2.HTTPError, e:  # uncomment for debug

@@ -4,6 +4,7 @@ Notifaction alarm to telegram from check_mk monitoring
 Notification alarm to telegram bot from check_mk monitoring with Proxy configuration.
 for sending alarm notification to telegram after create bot we must have telegram bot token (telegram_bot_token) and change this token on source code.
 
+For the configuration with proxy set variable use_proxy = True
 
 For example i have check_mk 1.4.0p31 installed on ubuntu server 16.04 because in my country access to telegram is restricted,
 i have to use proxy for connection to telegram.
